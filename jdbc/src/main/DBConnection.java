@@ -13,7 +13,7 @@ public class DBConnection {
     /** ・ユーザー名 */
     private static final String USER = "postgres";
     /** ・パスワード */
-    private static final String PASS = "postgres";
+    private static final String PASS = "yuki0302";
 
     public static void main(String[] args) {
 
