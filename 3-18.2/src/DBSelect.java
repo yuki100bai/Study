@@ -44,7 +44,7 @@ public class DBSelect {
                     JDBC_CONNECTION,USER,PASS);
             statement = connection.createStatement();
             // 問⑤ SHOHIN_IDが001と020のものを表示させるためのSQL文を記述しましょう。
-            String SQL = "SELECT * FROM SHOHIN_TB001,SHOHIN_TB020";
+            String SQL = "SELECT * FROM SHOHIN_TB WHERE SHOHIN_ID IN ('001', '020')";
             resultSet = statement.executeQuery(SQL);
 
             while (resultSet.next()) {
