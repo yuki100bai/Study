@@ -6,31 +6,33 @@ import java.sql.Statement;
 
 /**
  * ■ データベースに接続するプログラム
- * データベースに接続し、テーブルの内容を変更する処理。
  *
- * 問①〜問⑥までを回答し、データベースと接続してみましょう。
+ * カリキュラム「JDBCドライバ」を参考に
+ * JDBCドライブのjarファイルの設置とビルドパスの追加も忘れないようにしましょう。
+ *
+ * 問①〜問④までを回答し、データベースと接続してみましょう。
  * カリキュラム「データベースを扱うための準備」を参考にして下さい。
  *
  * 実行結果の提出に関しては、
  * いつも通りソースをコミットしていただきますが、
  * 今回は実行結果のスクリーンショットも合わせて提出していただきます。
- * 画像名はDBUpdate.pngとして、3-18フォルダの中に入れ、これまでと同様に提出して下さい。
+ * 画像名はDBAccess.pngとして、3-18フォルダの中に入れ、これまでと同様に提出して下さい。
  *
  */
 
-public class DBUpdate {
+public class DBAccess {
 
     /** ドライバーのクラス名 */
     private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
     /** ・JDMC接続先情報 */
- // 問① データベースのホスト名・データベース名を定数にしなさい。
-    private static final String JDBC_CONNECTION = "jdbc:postgresql://localhost:5432/jdbc_db";
+    // 問① データベースのホスト名・データベース名を定数にしなさい。
+    private static final String JDBC_CONNECTION =
     /** ・ユーザー名 */
     // 問② データベースのユーザー名を定数にしなさい。
-    private static final String USER = "postgres";
+    private static final String USER =
     /** ・パスワード */
     // 問③ データベースのパスワードを定数にしなさい。
-    private static final String PASS = "yuki0302";
+    private static final String PASS =
 
     public static void main(String[] args) {
 
@@ -42,18 +44,11 @@ public class DBUpdate {
             Class.forName(POSTGRES_DRIVER);
             // 問④ 問①〜③の定数を使ってデータベースと接続しなさい。
             connection = DriverManager.getConnection(
-                    JDBC_CONNECTION,USER,PASS);
+            "jdbc:postgresql://【ホスト名】/【データベース名】", "【ユーザー名】", "【パスワード】");
             statement = connection.createStatement();
 
-            // 問⑤ SHOHIN_IDが020のSHOHIN_NAMEを「商品20」に変更するためのSQL文を記述しましょう。
-            String SQLupdate = "update shohin_tb set SHOHIN_NAME = '商品20' where SHOHIN_ID = '020' ";
-
-            // 問⑥ 上記のSQL文を実行するための文を記述しましょう。
-            
-            statement.executeUpdate(SQLupdate);
-            //一覧表示
-            String SQLselect = "SELECT * FROM SHOHIN_TB";
-            resultSet = statement.executeQuery(SQLselect);
+            String SQL = "SELECT * FROM SHOHIN_TB";
+            resultSet = statement.executeQuery(SQL);
 
             while (resultSet.next()) {
                 String column1 = resultSet.getString("SHOHIN_ID");
@@ -65,16 +60,19 @@ public class DBUpdate {
                 System.out.println(column3);
             }
 
-        // forName()で例外発生
+            // forName()で例外発生
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
 
-        // getConnection()、createStatement()、executeQuery()で例外発生
+            // getConnection()、createStatement()、executeQuery()で例外発生
         } catch (SQLException e) {
             e.printStackTrace();
 
         } finally {
             try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
                 if (statement != null) {
                     statement.close();
                 }
@@ -84,6 +82,7 @@ public class DBUpdate {
 
             } catch (SQLException e) {
                 e.printStackTrace();
+
             }
         }
     }
