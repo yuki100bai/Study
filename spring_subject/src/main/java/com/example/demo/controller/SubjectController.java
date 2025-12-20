@@ -1,4 +1,4 @@
-package com.example.spring_demo.controller;
+package com.example.demo.controller;
 
 import java.util.List;
 
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.entity.SubjectEntity;
 import com.example.demo.service.SubjectService;
@@ -15,7 +14,6 @@ import com.example.demo.service.SubjectService;
 * 科目情報 Controller
 */
 @Controller
-@RequestMapping("/subject")
 public class SubjectController {
 
   /**
