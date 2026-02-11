@@ -7,15 +7,15 @@
     SELECT * FROM Stocks WHERE Quantity BETWEEN 10 AND 24;
 
 -- 3. INTERSECT演算子を使用して、Order_Headerテーブルで合計値(Total)が5000以上10000未満のものを抽出して下さい。
-    SELECT Total FROM Order_Header WHERE Total > 5000
+    SELECT Total FROM Order_Header WHERE Total > 4999
     INTERSECT
     SELECT Total FROM Order_Header WHERE Total < 10000
 
     -- 4. 「関東」エリアの全店舗情報を抽出して下さい。
-    SELECT * FROM area WHERE areaname = '関東';
+    SELECT * FROM Shop WHERE areacode='04';
 
 -- 5. 在庫(Stocksテーブル)内の各商品の合計数量を抽出して下さい。
-    SELECT shopcode, SUM(quantity) FROM Stocks GROUP BY shopcode;
+    SELECT goodscode, SUM(quantity) FROM Stocks GROUP BY goodscode;
 
 -- 6. 商品（Gods）テーブルから単価（UnitPrice)が5000円より高い商品の情報を全て抽出して下さい。
     SELECT GoodsName, Unitprice FROM Goods WHERE Unitprice > 5000;
@@ -28,4 +28,4 @@
     SELECT goods.goodsCode,goods.goodsname,stocks.quantity FROM goods 
     JOIN stocks ON goods.goodscode = stocks.goodscode 
     JOIN shop ON stocks.shopcode = shop.shopcode
-    WHERE shop.shopname = '新宿' AND stocks.quantity>= 20; 
+    WHERE shop.shopname = '新宿' AND stocks.quantity>= 10; 
