@@ -5,7 +5,7 @@ SELECT goods_code,goods_name,price FROM goods_table
 WHERE price >= 20000;
 
 -- 2. 店舗情報を店舗名のABC順に抽出して下さい。
-SELECT * FROM store_table ORDER BY store_name ASC; 
+SELECT * FROM store_table ORDER BY store_nameAbc ASC; 
 
 -- 3. 在庫テーブルに店舗テーブル、商品テーブルを「内部結合」し、店舗名・商品名・在庫数をすべて取得して下さい。
 SELECT store_table.store_name,goods_table.goods_name,quantity
