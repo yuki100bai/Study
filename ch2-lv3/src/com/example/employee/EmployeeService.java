@@ -36,22 +36,25 @@ public class EmployeeService {
             String deptName;
             String location;
             
+ String deptInfo;
+            
             if (dept == null) {
-                deptName = "部署未設定"; // 高橋さんのようなデータ用の文字
-                location = "未設定";
+                // 部署がない場合は「部署未設定」だけにする
+                deptInfo = "部署未設定";
             } else {
-                deptName = dept.getDeptName(); // 本物の部署名
-                location = dept.getLocation(); // 本物の勤務地
+                // 部署がある場合は、カッコ付きで組み立てる
+                deptInfo = dept.getDeptName() + "（" + dept.getLocation() + "）";
             }
 
-            // 💡 作った文字（deptName と location）を使って画面に出力する
-            System.out.printf("[%s] %-12s  %s（%s）  月給：%,d円%n",
+            // 💡 画面に出力する（カッコ部分を %s 1つにまとめました）
+            System.out.printf("[%s] %-12s  %s  月給：%,d円%n",
                     emp.getEmployeeId(),
                     emp.getName(),
-                    deptName,  // 👈 dept.getDeptName() から変更
-                    location,  // 👈 dept.getLocation() から変更
+                    deptInfo,
                     emp.calcMonthlySalary()
             );
+           
+        
         }
     }
         
