@@ -28,7 +28,7 @@ public class OrderSummaryReport {
             );
 
             String note = order.getNote();
-            System.out.println("  備考：" + (note == null ? "なし" :note.trim()));
+            System.out.println("  備考：" + (note == null ));
         }
 
         System.out.println("-------------------------------------------");
