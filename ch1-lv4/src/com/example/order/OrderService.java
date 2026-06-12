@@ -113,7 +113,6 @@ public class OrderService {
         
         return average;
     }
-
     /**
      * 登録件数を返す。
      */
