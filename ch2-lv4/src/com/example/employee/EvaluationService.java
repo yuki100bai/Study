@@ -22,8 +22,15 @@ public class EvaluationService {
      * @param record 追加するレコード
      */
     public void addRecord(EvaluationRecord record) {
+    		Employee emp = repository.findById(record.getEmployeeId());
+    		if(emp == null) {
+    			return;
+    		}
+    		
+    	
         records.add(record);
     }
+
 
     /**
      * 全評価レコードを表示する。

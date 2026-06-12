@@ -22,6 +22,7 @@ public class Main {
         service.addRecord(new EvaluationRecord("E001", "2026-Q1", 88));
         service.addRecord(new EvaluationRecord("E001", "2026-Q2", 76));
         service.addRecord(new EvaluationRecord("E002", "2026-Q1", 92));
+        service.addRecord(new EvaluationRecord("E999", "2026-Q1", 65));
         service.addRecord(new EvaluationRecord("E002", "2026-Q2", 85));
         service.addRecord(new EvaluationRecord("E003", "2026-Q1", 61));
         service.addRecord(new EvaluationRecord("E003", "2026-Q2", 74));
