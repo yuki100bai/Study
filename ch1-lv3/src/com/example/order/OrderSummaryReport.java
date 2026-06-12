@@ -28,7 +28,10 @@ public class OrderSummaryReport {
             );
 
             String note = order.getNote();
-            System.out.println("  備考：" + (note == null ));
+            if(note == null || "false".equals(note)) {
+            	note = "";
+            }
+            System.out.println("  備考：" + note );
         }
 
         System.out.println("-------------------------------------------");
