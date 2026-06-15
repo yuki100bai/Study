@@ -9,6 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.member.service.MemberNotFoundException;
+import com.example.member.service.MemberRegistrationService;
+import com.example.member.service.MemberRepository;
+
 @ExtendWith(MockitoExtension.class)
 class MemberRegistrationServiceTest {
 
