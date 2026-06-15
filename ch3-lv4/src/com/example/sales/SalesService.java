@@ -55,7 +55,7 @@ public class SalesService {
             String name = r.getSalesRepName();
             String repName;
             if (name == null) {
-                repName = "未設定"; // 名前が空っぽのときは「未設定」にする
+                repName = "不明"; // 名前が空っぽのときは「不明」にする
             } else {
                 repName = name.toUpperCase(); // 名前があるときだけ大文字にする
             }
