@@ -16,6 +16,7 @@ import com.example.member.service.MemberRepository;
 @ExtendWith(MockitoExtension.class)
 class MemberRegistrationServiceTest {
 
+	
     @Mock
     private MemberRepository repository;
 
