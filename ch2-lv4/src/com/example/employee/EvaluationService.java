@@ -21,12 +21,7 @@ public class EvaluationService {
      *
      * @param record 追加するレコード
      */
-    public void addRecord(EvaluationRecord record) {
-    		Employee emp = repository.findById(record.getEmployeeId());
-    		if(emp == null) {
-    			return;
-    		}
-    		
+    public void addRecord(EvaluationRecord record) {	
     	
         records.add(record);
     }
@@ -39,6 +34,9 @@ public class EvaluationService {
         System.out.println("===== 評価スコア一覧 =====");
         for (EvaluationRecord rec : records) {
             Employee emp = repository.findById(rec.getEmployeeId());
+            if(emp == null) {
+            	continue;
+            }
             System.out.printf("[%s] %-10s  [%s] スコア：%3d  評価：%s%n",
                     emp.getEmployeeId(),
                     emp.getName(),
