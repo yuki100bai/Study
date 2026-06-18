@@ -57,7 +57,7 @@ public class SalesService {
             if (name == null) {
                 repName = "不明"; // 名前が空っぽのときは「不明」にする
             } else {
-                repName = name.toUpperCase(); // 名前があるときだけ大文字にする
+                repName = name; // 名前があるときだけ大文字にする
             }
             System.out.printf("%-6s  %-8s  %-10s  %-10s  %,12d  %6d個%n",
                 r.getSalesId(),
