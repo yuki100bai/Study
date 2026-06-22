@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>商品一覧</title>
+  <style>
+    body { font-family: sans-serif; margin: 24px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+    th { background: #f0f0f0; }
+    .toolbar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; }
+    #errorMsg { color: red; display: none; margin-top: 8px; }
+    #loadingMsg { color: #888; display: none; }
+  </style>
+</head>
+<body>
+  <h2>商品一覧</h2>
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="商品名で検索..." style="width:240px; padding:6px;">
+    <button id="searchBtn">検索</button>
+    <button id="loadBtn">全件取得</button>
+  </div>
+  <p id="loadingMsg">読み込み中...</p>
+  <p id="errorMsg"></p>
+  <table>
+    <thead>
+      <tr>
+        <th>商品ID</th>
+        <th>商品名</th>
+        <th>カテゴリ</th>
+        <th>価格</th>
+        <th>在庫数</th>
+      </tr>
+    </thead>
+    <tbody id="productTableBody"></tbody>
+  </table>
+
+  <!-- 💡 ファイルの読み込みをやめて、ここに直接 JavaScript のプログラムを合体させました！ -->
+  <script>
+    const loadBtn      = document.getElementById("loadBtn");
+    const searchBtn    = document.getElementById("searchBtn");
+    const searchInput  = document.getElementById("searchInput");
+    const tableBody    = document.getElementById("productTableBody");
+    const errorMsg     = document.getElementById("errorMsg");
+    const loadingMsg   = document.getElementById("loadingMsg");
+
+    let allProducts = [];
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.style.display = "block";
+    }
+
+    function hideError() {
+      errorMsg.style.display = "none";
+    }
+
+    function showLoading() {
+      loadingMsg.style.display = "block";
+    }
+
+    function hideLoading() {
+      loadingMsg.style.display = "none";
+    }
+
+    function renderTable(products) {
+      tableBody.innerHTML = "";
+      if (products.length === 0) {
+        const row = document.createElement("tr");
+        row.innerHTML = '<td colspan="5" style="text-align:center;">該当する商品がありません</td>';
+        tableBody.appendChild(row);
+        return;
+      }
+      products.forEach(product => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${product.productId}</td>
+          <td>${product.name}</td>
+          <td>${product.category}</td>
+          <td>${product.price.toLocaleString()}円</td>
+          <td>${product.stock}個</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    async function fetchAllProducts() {
+      hideError();
+      showLoading();
+      tableBody.innerHTML = "";
+
+      try {
+        const response = await fetch("/api/products");
+
+        if (!response.ok) {
+          throw new Error("サーバーエラー: " + response.status);
+        }
+
+        allProducts = await response.json();
+
+        renderTable(allProducts);
+
+      } catch (error) {
+        console.error("取得エラー:", error);
+        showError("商品一覧の取得に失敗しました。しばらく経ってから再度お試しください。");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function filterProducts(keyword) {
+      const trimmed = keyword.trim().toLowerCase();
+      if (trimmed === "") {
+        renderTable(allProducts);
+        return;
+      }
+      const filtered = allProducts.filter(p =>
+        p.name.toLowerCase().includes(trimmed) ||
+        p.category.toLowerCase().includes(trimmed)
+      );
+      renderTable(filtered);
+    }
+
+    loadBtn.addEventListener("click", () => {
+      fetchAllProducts();
+    });
+
+    searchBtn.addEventListener("click", () => {
+      filterProducts(searchInput.value);
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        filterProducts(searchInput.value);
+      }
+    });
+  </script>
+</body>
+</html>
