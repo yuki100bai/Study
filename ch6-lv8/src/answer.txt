@@ -1,0 +1,22 @@
+EXPLAIN の3行それぞれで何が起きているかを説明してください。
+EXPLAINの3行すべてが全ての案件を(ALL)すべて検索してしまっているため、検索に時間がかかっている。
+
+orders テーブルで Using temporary; Using filesort が発生している理由を説明してください。
+ORDER BY o.order_date DESC, m.nameとあるように注文日順に並べることを求められているが、データベースに日付順という内容がまだ存在していないため、パソコンの処理が追い付いていないため、上記の内容になっている。
+
+このクエリを改善するために追加すべきインデックスを3つ提案し、それぞれの理由を説明してください。
+1idx_order_date_status
+order_dateとstatusによって今まで絞り込みを行う際に全件より行っていたものを、絞ることができるため。
+
+2idx_order_id
+3order_idに紐づいている数が2400万件もあるため、特定するために切り分けた方が細かく検索が可能となるため。
+
+
+改善するためのDDL（CREATE INDEX 文）をすべて記述してください。
+1 CREATE INDEX idx_order_date_status on others;
+2 CREATE INDEX idx_order_id on orders_items(order_id);
+
+インデックス追加後の EXPLAIN で各テーブルの type がどの値に改善するかを予測してください。
+ordersテーブル　range
+membersテーブル　eq_ref
+order_itemsテーブル　ref
