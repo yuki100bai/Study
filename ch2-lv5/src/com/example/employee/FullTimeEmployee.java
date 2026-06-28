@@ -23,7 +23,7 @@ public class FullTimeEmployee extends Employee {
      */
     @Override
     public int calcMonthlySalary() {
-        return getAnnualSalary() / 12 ;
+        return getAnnualSalary() / 12 + allowance;
     }
 
     /**
