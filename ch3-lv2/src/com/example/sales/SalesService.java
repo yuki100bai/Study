@@ -76,7 +76,7 @@ public class SalesService {
      * @param record 登録する売上レコード
      * @throws InvalidSalesDataException 数量または単価が 0 以下の場合
      */
-    void register(SalesRecord record) {     // ★ アクセス修飾子が不足している（publicにすべき）
+    public void register(SalesRecord record) {     // ★ アクセス修飾子が不足している（publicにすべき）
         if (record.getQuantity() <= 0) {
             throw new InvalidSalesDataException("quantity", record.getQuantity());
         }
