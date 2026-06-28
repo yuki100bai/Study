@@ -50,6 +50,10 @@ public class OrderService {
         System.out.println("===== 注文明細一覧 =====");
         for (Order order : repository.findAll()) {
             for (OrderItem item : order.getItems()) {
+            	
+            	if (item == null) {
+                    continue;
+                }
                 System.out.printf("[%s] %-24s  数量：%d  単価：%,6d円  小計：%,6d円%n",
                         order.getOrderId(),
                         item.getProductName(),
@@ -70,13 +74,17 @@ public class OrderService {
         // 全明細を配列にまとめる
         int totalItemCount = 0;
         for (Order order : orders) {
-            totalItemCount += order.getItems().size();
+        	 for (OrderItem item : order.getItems()) { // 💡ループを追加
+                 if (item != null) totalItemCount++;   // 💡nullじゃなければカウント
+             }
+         
         }
 
         int[] prices = new int[totalItemCount];
         int idx = 0;
         for (Order order : orders) {
             for (OrderItem item : order.getItems()) {
+            	 if (item == null) continue; 
                 prices[idx++] = item.getUnitPrice();
             }
         }
