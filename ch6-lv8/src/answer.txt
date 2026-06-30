@@ -5,16 +5,19 @@ orders テーブルで Using temporary; Using filesort が発生している理�
 ORDER BY o.order_date DESC, m.nameとあるように注文日順に並べることを求められているが、データベースに日付順という内容がまだ存在していないため、パソコンの処理が追い付いていないため、上記の内容になっている。
 
 このクエリを改善するために追加すべきインデックスを3つ提案し、それぞれの理由を説明してください。
-1idx_order_date_status
+1 idx_order_date_status
 order_dateとstatusによって今まで絞り込みを行う際に全件より行っていたものを、絞ることができるため。
 
-2idx_order_id
-3order_idに紐づいている数が2400万件もあるため、特定するために切り分けた方が細かく検索が可能となるため。
+2 idx_member_id
+members テーブルを結合する際、orders の member_id から会員データを全件検索（ALL）せずに一瞬で見つけ出せるようにするため。
 
-
+3idx_order_id
+order_itemsに紐づいている数が2400万件もあるため、特定するために切り分けた方が細かく検索が可能となるため。
+ 
 改善するためのDDL（CREATE INDEX 文）をすべて記述してください。
-1 CREATE INDEX idx_order_date_status on others;
-2 CREATE INDEX idx_order_id on orders_items(order_id);
+1 CREATE INDEX idx_order_date_status ON orders(order_date, status);
+2 CREATE INDEX idx_member_id ON orders(member_id);
+3 CREATE INDEX idx_order_id ON order_items(order_id);
 
 インデックス追加後の EXPLAIN で各テーブルの type がどの値に改善するかを予測してください。
 ordersテーブル　range
