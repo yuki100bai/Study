@@ -49,6 +49,9 @@ function renderOrderDetail(order) {
   document.getElementById("dispTotal").textContent = formatCurrency(totalWithTax);
 }
 
+
+
+
 searchBtn.addEventListener("click", async () => {
   const orderId = orderIdInput.value.trim();
   hideError();
@@ -59,21 +62,24 @@ searchBtn.addEventListener("click", async () => {
     return;
   }
 
-  // 💡 通信相手（サーバー）がいないので、fetchの処理はスキップして、直接データを準備します！
-  const order = {
-    "orderId": "ORD-0042",
-    "customerName": "田中 一郎",
-    "orderDate": "2026-05-20",
-    "shippingAddress": "東京都新宿区西新宿1-1-1",
-    "status": "処理中",
-    "taxRate": 10,
-    "items": [
-      { "productId": "P-001", "productName": "ノートPC",       "unitPrice": 128000, "quantity": 1 },
-      { "productId": "P-007", "productName": "ワイヤレスマウス", "unitPrice": 3800,   "quantity": 2 }
-    ]
-  };
+  // 💡 データを直接書くのをやめて、サーバーから取ってくる処理（fetch）に戻します
+   try {
+     const response = await fetch("/api/orders/" + encodeURIComponent(orderId));
 
-  // 画面にデータを表示する
-  renderOrderDetail(order);
-  detailPanel.style.display = "block";
-});
+     if (response.status === 404) {
+       showError("注文ID「" + orderId + "」は見つかりませんでした");
+       return;
+     }
+
+     if (!response.ok) {
+       throw new Error("サーバーエラー: " + response.status);
+     }
+
+     const order = await response.json();
+     renderOrderDetail(order);
+     detailPanel.style.display = "block";
+
+   } catch (error) {
+     console.error("エラー:", error);
+     showError("注文情報の取得に失敗しました。しばらく経ってから再度お試しください。");
+   }
